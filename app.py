@@ -10,7 +10,8 @@ st.set_page_config(
 )
 
 # ---------------- LOAD MODEL ---------------- #
-model = joblib.load("churn_pipeline.pkl")
+model = joblib.load("model.pkl")
+scaler = joblib.load("scaler.pkl")
 
 # ---------------- HEADER ---------------- #
 st.title("📊 Customer Churn Prediction System")
@@ -57,27 +58,67 @@ TotalCharges = st.sidebar.number_input("Total Charges", 0.0, 10000.0, 1000.0)
 
 # ---------------- BUILD INPUT ---------------- #
 input_df = pd.DataFrame([{
-    "SeniorCitizen": int(SeniorCitizen),
-    "gender": str(gender),
-    "Partner": str(Partner),
-    "Dependents": str(Dependents),
-    "tenure": float(tenure),
-    "PhoneService": str(PhoneService),
-    "MultipleLines": str(MultipleLines),
-    "InternetService": str(InternetService),
-    "OnlineSecurity": str(OnlineSecurity),
-    "OnlineBackup": str(OnlineBackup),
-    "DeviceProtection": str(DeviceProtection),
-    "TechSupport": str(TechSupport),
-    "StreamingTV": str(StreamingTV),
-    "StreamingMovies": str(StreamingMovies),
-    "Contract": str(Contract),
-    "PaperlessBilling": str(PaperlessBilling),
-    "PaymentMethod": str(PaymentMethod),
-    "MonthlyCharges": float(MonthlyCharges),
-    "TotalCharges": float(TotalCharges)
-}])
 
+    "SeniorCitizen": int(SeniorCitizen),
+    "tenure": float(tenure),
+    "MonthlyCharges": float(MonthlyCharges),
+    "TotalCharges": float(TotalCharges),
+
+    # gender
+    "gender_Male": 1 if gender == "Male" else 0,
+
+    # Partner / Dependents
+    "Partner_Yes": 1 if Partner == "Yes" else 0,
+    "Dependents_Yes": 1 if Dependents == "Yes" else 0,
+
+    # Phone
+    "PhoneService_Yes": 1 if PhoneService == "Yes" else 0,
+
+    # MultipleLines
+    "MultipleLines_No phone service": 1 if MultipleLines == "No phone service" else 0,
+    "MultipleLines_Yes": 1 if MultipleLines == "Yes" else 0,
+
+    # InternetService
+    "InternetService_Fiber optic": 1 if InternetService == "Fiber optic" else 0,
+    "InternetService_No": 1 if InternetService == "No" else 0,
+
+    # OnlineSecurity
+    "OnlineSecurity_No internet service": 1 if OnlineSecurity == "No internet service" else 0,
+    "OnlineSecurity_Yes": 1 if OnlineSecurity == "Yes" else 0,
+
+    # OnlineBackup
+    "OnlineBackup_No internet service": 1 if OnlineBackup == "No internet service" else 0,
+    "OnlineBackup_Yes": 1 if OnlineBackup == "Yes" else 0,
+
+    # DeviceProtection
+    "DeviceProtection_No internet service": 1 if DeviceProtection == "No internet service" else 0,
+    "DeviceProtection_Yes": 1 if DeviceProtection == "Yes" else 0,
+
+    # TechSupport
+    "TechSupport_No internet service": 1 if TechSupport == "No internet service" else 0,
+    "TechSupport_Yes": 1 if TechSupport == "Yes" else 0,
+
+    # StreamingTV
+    "StreamingTV_No internet service": 1 if StreamingTV == "No internet service" else 0,
+    "StreamingTV_Yes": 1 if StreamingTV == "Yes" else 0,
+
+    # StreamingMovies
+    "StreamingMovies_No internet service": 1 if StreamingMovies == "No internet service" else 0,
+    "StreamingMovies_Yes": 1 if StreamingMovies == "Yes" else 0,
+
+    # Contract
+    "Contract_One year": 1 if Contract == "One year" else 0,
+    "Contract_Two year": 1 if Contract == "Two year" else 0,
+
+    # Billing
+    "PaperlessBilling_Yes": 1 if PaperlessBilling == "Yes" else 0,
+
+    # PaymentMethod
+    "PaymentMethod_Credit card (automatic)": 1 if PaymentMethod == "Credit card (automatic)" else 0,
+    "PaymentMethod_Electronic check": 1 if PaymentMethod == "Electronic check" else 0,
+    "PaymentMethod_Mailed check": 1 if PaymentMethod == "Mailed check" else 0
+
+}])
 # ---------------- PREDICTION ---------------- #
 if st.button("🔮 Predict Churn"):
 
