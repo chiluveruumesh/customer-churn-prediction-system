@@ -138,19 +138,55 @@ if st.button("🔮 Predict Churn"):
 
     st.markdown("---")
 
-    st.subheader("📊 Risk Analysis")
-
-    st.progress(float(prob))
+    st.markdown("## 📊 Risk Level Breakdown")
 
     if prob > 0.7:
-        st.error("High Risk Customer 🔴")
-        st.write("Recommendation: Offer discount or retention call.")
+        st.error("🔴 HIGH RISK")
+        st.write("Action: Immediate retention call + discount offer")
     elif prob > 0.4:
-        st.warning("Medium Risk Customer 🟠")
-        st.write("Recommendation: Engagement campaign.")
+        st.warning("🟠 MEDIUM RISK")
+        st.write("Action: Engagement campaign")
     else:
-        st.success("Low Risk Customer 🟢")
-        st.write("Recommendation: Maintain service quality.")
+        st.success("🟢 LOW RISK")
+        st.write("Action: Maintain service quality")
+        st.markdown("## 🧠 Why is this customer at risk?")
+    reasons = []
+
+    if tenure < 12:
+        reasons.append("⚠️ Low tenure (new customer)")
+
+    if Contract == "Month-to-month":
+        reasons.append("⚠️ Month-to-month contract")
+
+    if InternetService == "Fiber optic":
+        reasons.append("⚠️ Fiber optic service (higher churn tendency)")
+
+    if MonthlyCharges > 80:
+        reasons.append("⚠️ High monthly charges")
+
+    if OnlineSecurity == "No":
+       reasons.append("⚠️ No online security")
+
+    if TechSupport == "No":
+        reasons.append("⚠️ No tech support")
+
+    if len(reasons) == 0:
+        reasons.append("✅ Customer profile is stable")
+
+    for r in reasons:
+        st.write(r)
+    st.markdown("## 📉 Churn Probability Gauge")
+
+    st.progress(float(prob))
+    st.write(f"Probability Score: {prob:.2%}")
+    st.markdown("## 💼 Business Insight")
+
+    if prob > 0.7:
+        st.write("🚨 This customer is highly likely to leave. Losing them could impact revenue.")
+    elif prob > 0.4:
+        st.write("⚠️ This customer may churn. Early intervention recommended.")
+    else:
+        st.write("✅ This customer is stable and likely to continue service.")
 
 # ---------------- FOOTER ---------------- #
 st.markdown("---")
