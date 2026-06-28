@@ -65,9 +65,12 @@ streamlit run app.py
 -Helps data-driven decision making
 -Increases revenue stability
 
+**App Link**
+https://customer-churn-prediction-system-hqwtf6znbjrrjhgiwuymsp.streamlit.app/
 **Author**
-
 Chiluveru Umesh Chandra
+Github:https://github.com/chiluveruumesh/customer-churn-prediction-system
+Linkdin:www.linkedin.com/in/umesh-chiluveru
 
 **Future Improvements**
 -Deploy on cloud (Streamlit Cloud / AWS)
