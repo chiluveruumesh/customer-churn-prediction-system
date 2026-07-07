@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 
 # ---------------- PAGE CONFIG ---------------- #
 st.set_page_config(
-    page_title="Churn Intelligence System",
+    page_title="Customer Churn Prediction and Retention System",
     page_icon="📊",
     layout="wide"
 )
@@ -15,8 +15,8 @@ model = joblib.load("model.pkl")
 scaler = joblib.load("scaler.pkl")
 
 # ---------------- HEADER ---------------- #
-st.title("📊 Customer Churn Intelligence System")
-st.markdown("AI-powered retention and churn prediction dashboard")
+st.title("📊 Customer Churn Prediction and Retention System")
+st.markdown("AI-powered Customer Churn Prediction and Retention Intelligence System ")
 
 st.markdown("---")
 
